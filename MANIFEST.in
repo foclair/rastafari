@@ -1,3 +1,4 @@
+include           CHANGES.md
 include           .pre-commit-config.yaml
 recursive-include src/rastafari *.pyx
 include           test-requirements.txt
