@@ -3,6 +3,37 @@
 Rasterize vector features to grids.
 
 
+## Development
+
+Rastafari uses [pre-commit][].  Install it and run `pre-commit
+install` to run its checks every time you commit.  It will also be run
+in the CI pipeline in case you forget.
+
+To update the test requirements in the CI job, install [pip-tools][]
+and run
+
+```console
+pip-compile setup.cfg --extra test -o test-requirements.txt
+```
+
+Add the `--upgrade` flag if you want to update the existing
+requirements to the latest version.
+
+[pre-commit]: https://pre-commit.com/
+[pip-tools]: https://github.com/jazzband/pip-tools/
+
+
+## Release
+
+To release a new version of Rastafari, bump the version number in
+`src/rastafari/__init__.py` and create a git tag starting with a lower
+case `v` followed by the new version number.  Remember that you can
+create pre-release versions and install them with [pip's --pre
+flag][pip-pre].
+
+[pip-pre]: https://pip.pypa.io/en/stable/cli/pip_install/#pre-release-versions
+
+
 ## Maintenance
 
 This package is maintained by [FO Luft][] at SMHI.

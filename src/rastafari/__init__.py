@@ -7,7 +7,7 @@ import pyproj
 
 from .core import ddaf_line_subpixel, even_odd_polygon_fill  # noqa
 
-__version__ = "0.1.0"
+__version__ = "0.1.0.dev1"
 
 
 def resample_band(
