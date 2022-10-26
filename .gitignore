@@ -1,4 +1,5 @@
 /build/
+/.coverage
 /src/rastafari.egg-info/
 /src/rastafari/*.c
 /src/rastafari/*.so

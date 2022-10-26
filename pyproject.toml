@@ -7,3 +7,10 @@ ignore = [
   ".gitlab-ci.yml",
   "src/rastafari/*.c",
 ]
+
+[tool.coverage.run]
+source = ["rastafari"]
+branch = true
+
+[tool.pytest.ini_options]
+filterwarnings = ["error"]
