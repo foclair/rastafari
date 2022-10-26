@@ -1,0 +1,4 @@
+include           .pre-commit-config.yaml
+recursive-include src/rastafari *.pyx
+include           test-requirements.txt
+recursive-include tests *.py
