@@ -1,5 +1,6 @@
 /build/
 /.coverage
+/.venv
 /src/rastafari.egg-info/
 /src/rastafari/*.c
 /src/rastafari/*.so

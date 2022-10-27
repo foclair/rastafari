@@ -1,8 +1,9 @@
 import math
 
+import numpy as np
 import pytest
 
-from rastafari import ddaf_line_subpixel
+from rastafari import ddaf_line_subpixel, even_odd_polygon_fill
 
 
 def assert_weights(weights, true_weights):
@@ -190,3 +191,89 @@ def test_ddaf_multiple_lines_no_crossings():
     ddaf_line_subpixel(x1, y1, x2, y2, weights, length, extent, 1, 1)
     assert weights == {(1, 0): 1 / length}
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
+
+
+def test_even_odd_polygon_fill():
+    """Test rasterizing different polygons."""
+
+    nodes = [(1.5, 1.0), (4.0, 1.0), (4.0, 4.0), (2.5, 3.0), (1.5, 1.0)]
+    nodes = np.array(nodes)
+
+    # simple polygon without subgrid refinement
+    weights = {}
+    extent = (0, 0, 10, 10)
+    nx = 10
+    ny = 10
+    even_odd_polygon_fill(nodes, weights, extent, nx, ny, subgridcells=1)
+    true_weights = {
+        (8, 1): 1 / 6,
+        (7, 2): 1 / 6,
+        (8, 2): 1 / 6,
+        (6, 3): 1 / 6,
+        (7, 3): 1 / 6,
+        (8, 3): 1 / 6,
+    }
+
+    assert_weights(weights, true_weights)
+
+    # simple polygon with subgrid refinement
+    weights = {}
+    extent = (0, 0, 10, 10)
+    nx = 10
+    ny = 10
+    even_odd_polygon_fill(nodes, weights, extent, nx, ny, subgridcells=2)
+    true_weights = {
+        (6, 3): 0.1363636,
+        (7, 3): 0.18181818,
+        (8, 3): 0.18181818,
+        (6, 2): 0.04545454,
+        (8, 2): 0.18181818,
+        (8, 1): 0.0909090,
+        (7, 2): 0.181818,
+    }
+
+    assert_weights(weights, true_weights)
+
+    # complex polygon without subgrid refinement
+    nodes2 = np.array(
+        [
+            (1.5, 1.0),
+            (2.5, 5.5),
+            (3.5, 1.0),
+            (5.0, 6.5),
+            (7.0, 0.0),
+            (1.5, 1.0),
+        ]
+    )
+
+    weights = {}
+    extent = (0, 0, 10, 10)
+    nx = 10
+    ny = 10
+
+    even_odd_polygon_fill(nodes2, weights, extent, nx, ny, subgridcells=1)
+
+    true_weights = {
+        (6, 4): 0.05,
+        (5, 4): 0.05,
+        (4, 4): 0.05,
+        (5, 5): 0.05,
+        (7, 3): 0.05,
+        (8, 1): 0.05,
+        (8, 5): 0.05,
+        (7, 5): 0.05,
+        (7, 1): 0.05,
+        (8, 3): 0.05,
+        (7, 4): 0.05,
+        (6, 2): 0.05,
+        (6, 5): 0.05,
+        (9, 4): 0.05,
+        (9, 6): 0.05,
+        (9, 5): 0.05,
+        (8, 4): 0.05,
+        (5, 2): 0.05,
+        (7, 2): 0.05,
+        (8, 2): 0.05,
+    }
+
+    assert_weights(weights, true_weights)
