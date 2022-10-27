@@ -2,9 +2,19 @@
 
 Rasterize vector features to grids.
 
+
 ## Install
 
-To install rastafari, run:
+Use pip and FO Luft's Python index to install Rastafari:
+
+```console
+python -m pip install rastafari --extra-index-url https://gitlab.smhi.se/api/v4/projects/3495/packages/pypi/simple
+```
+
+
+## Development
+
+To install Rastafari in a local venv for development, run:
 ```console
 git clone https://git.smhi.se/foclair/rastafari.git
 sudo yum install python39-devel
@@ -15,14 +25,12 @@ python -m pip install Cython
 RASTAFARI_USE_CYTHON=1 python -m pip install --no-build-isolation -e .[test]
 ```
 
-## Development
-
 Rastafari uses [pre-commit][].  Install it and run `pre-commit
 install` to run its checks every time you commit.  It will also be run
 in the CI pipeline in case you forget.
 
-To update the test requirements in the CI job, install [pip-tools][]
-and run
+Rastafari uses [pytest][] as a test runner. To update the test
+requirements in the CI job, install [pip-tools][] and run
 
 ```console
 pip-compile setup.cfg --extra test -o test-requirements.txt
@@ -32,6 +40,7 @@ Add the `--upgrade` flag if you want to update the existing
 requirements to the latest version.
 
 [pre-commit]: https://pre-commit.com/
+[pytest]: https://pytest.org/
 [pip-tools]: https://github.com/jazzband/pip-tools/
 
 
