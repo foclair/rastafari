@@ -2,6 +2,18 @@
 
 Rasterize vector features to grids.
 
+## Install
+
+To install rastafari, run:
+```console
+git clone https://git.smhi.se/foclair/rastafari.git
+sudo yum install python39-devel
+python3.9 -m venv .venv
+. .venv/bin/activate
+python -m pip install -U pip
+python -m pip install Cython
+RASTAFARI_USE_CYTHON=1 python -m pip install --no-build-isolation -e .[test]
+```
 
 ## Development
 
