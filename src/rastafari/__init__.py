@@ -6,7 +6,13 @@ import numpy as np
 import numpy.typing as npt
 import pyproj
 
-from .core import ddaf_line_subpixel, even_odd_polygon_fill  # noqa: F401
+from .core import ddaf_line_subpixel, even_odd_polygon_fill
+
+__all__ = [
+    "ddaf_line_subpixel",
+    "even_odd_polygon_fill",
+    "resample_band",
+]
 
 __version__ = "0.1.0"
 
