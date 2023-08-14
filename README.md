@@ -17,6 +17,7 @@ python -m pip install rastafari --extra-index-url https://gitlab.smhi.se/api/v4/
 To install Rastafari in a local venv for development, run:
 ```console
 git clone https://git.smhi.se/foclair/rastafari.git
+cd rastafari
 sudo yum install python3.11-devel
 python3.11 -m venv .venv
 . .venv/bin/activate
@@ -26,19 +27,28 @@ RASTAFARI_USE_CYTHON=1 python -m pip install --no-build-isolation -e .[test]
 ```
 
 Rastafari uses [pre-commit][].  Install it and run `pre-commit
-install` to run its checks every time you commit.  It will also be run
-in the CI pipeline in case you forget.
-
-Rastafari uses [pytest][] as a test runner. To update the test
-requirements in the CI job, install [pip-tools][] and run
+install` to run its checks every time you commit.  Run the checks
+manually with
 
 ```console
-pip-compile setup.cfg --extra test -o test-requirements.txt
+pre-commit run -a
 ```
 
-Add the `--upgrade` flag if you want to update the existing
-requirements to the latest version.
+[pytest][] is used as a test runner:
 
+```console
+pytest
+```
+
+Rastafari comes fully typed.  Use [mypy][] to check the type annotations:
+
+```console
+mypy .
+```
+
+All these tools will be run in CI in case you forget.
+
+[mypy]: https://www.mypy-lang.org/
 [pre-commit]: https://pre-commit.com/
 [pytest]: https://pytest.org/
 [pip-tools]: https://github.com/jazzband/pip-tools/
