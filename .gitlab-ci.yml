@@ -21,6 +21,13 @@ check-manifest:
   script:
     - check-manifest
 
+mypy:
+  stage: lint
+  before_script:
+    - python -m pip install -r test-requirements.txt
+  script:
+    - mypy .
+
 pre-commit:
   stage: lint
   variables:

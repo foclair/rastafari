@@ -5,7 +5,7 @@ from pytest import approx
 from rastafari import resample_band
 
 
-def test_resample_band():
+def test_resample_band() -> None:
     band = np.array([[1, 2], [3, 4]])
     source_extent = (0, 0, 100, 100)
     source_nodata = -9999

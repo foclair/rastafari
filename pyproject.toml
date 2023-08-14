@@ -12,5 +12,9 @@ ignore = [
 source = ["rastafari"]
 branch = true
 
+[tool.mypy]
+strict = true
+exclude = ['^setup\.py$']
+
 [tool.pytest.ini_options]
 filterwarnings = ["error"]

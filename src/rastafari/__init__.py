@@ -3,24 +3,34 @@
 import math
 
 import numpy as np
+import numpy.typing as npt
 import pyproj
 
-from .core import ddaf_line_subpixel, even_odd_polygon_fill  # noqa
+from .core import ddaf_line_subpixel, even_odd_polygon_fill
+
+__all__ = [
+    "ddaf_line_subpixel",
+    "even_odd_polygon_fill",
+    "resample_band",
+]
 
 __version__ = "0.1.0"
 
+ExtentType = tuple[float, float, float, float]
+WeightsDict = dict[tuple[int, int], float]
+
 
 def resample_band(
-    source_grid,
-    source_extent,
-    source_nodata,
-    target_extent,
-    target_nx,
-    target_ny,
-    source_srid,
-    target_srid,
-    subgridcells=2,
-):
+    source_grid: npt.NDArray[np.float_],
+    source_extent: ExtentType,
+    source_nodata: float,
+    target_extent: ExtentType,
+    target_nx: int,
+    target_ny: int,
+    source_srid: int,
+    target_srid: int,
+    subgridcells: int = 2,
+) -> tuple[tuple[npt.NDArray[np.intp], ...], npt.NDArray[np.float_]]:
     """Resample raster using inverse neareast neighbour algorithm.
 
     The original raster is refined and each pixel is sorted into the
@@ -87,7 +97,7 @@ def resample_band(
     cell_centers = np.vstack((ccx, ccy)).T
     if cell_centers.size == 0:
         # all cells are zero in source grid
-        return ([], [])
+        return ((), np.array([]))
 
     # if target srid is different from source srid,
     # transform cell centers to target srid
