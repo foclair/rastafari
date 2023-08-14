@@ -1,9 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 
-from . import ExtentType
-
-WeightsDict = dict[tuple[int, int], float]
+from . import ExtentType, WeightsDict
 
 def ddaf_line_subpixel(
     x0: float,

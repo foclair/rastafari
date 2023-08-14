@@ -3,19 +3,19 @@ import math
 import numpy as np
 import pytest
 
-from rastafari import ddaf_line_subpixel, even_odd_polygon_fill
+from rastafari import WeightsDict, ddaf_line_subpixel, even_odd_polygon_fill
 
 
-def assert_weights(weights, true_weights):
+def assert_weights(weights: WeightsDict, true_weights: WeightsDict) -> None:
     # compare calculated weights for each cell with true weights
     for cell in true_weights:
         assert cell in weights, f"missing cell {cell} in weights"
         assert weights[cell] == pytest.approx(true_weights[cell], 1e-4)
 
 
-def test_ddaf_line_subpixel():
+def test_ddaf_line_subpixel() -> None:
     # upper right quadrant, within grid extent
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1 = (2.0, 2.0, 6.0, 6.0)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
     extent = (0.0, 0.0, 10.0, 10.0)
@@ -53,9 +53,9 @@ def test_ddaf_line_subpixel():
     assert len(weights) == 0
 
 
-def test_ddaf_line_subpixel_diagonal():
+def test_ddaf_line_subpixel_diagonal() -> None:
     # diagonal line, two crossings
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1 = (0.25, 0.75, 1.25, 1.75)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
     extent = (0, 0, 2, 2)
@@ -64,9 +64,9 @@ def test_ddaf_line_subpixel_diagonal():
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
 
-def test_ddaf_line_subpixel_contained():
+def test_ddaf_line_subpixel_contained() -> None:
     # diagonal line, no crossings
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1 = (1.1, 1.1, 1.9, 1.9)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
     extent = (0, 0, 5, 5)
@@ -93,9 +93,9 @@ def test_ddaf_line_subpixel_contained():
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
 
-def test_ddaf_resolution_non_uniform():
+def test_ddaf_resolution_non_uniform() -> None:
     # horizontal line, no crossings
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1 = (5, 7, 15, 7)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
     extent = (0, 0, 20, 25)
@@ -111,9 +111,9 @@ def test_ddaf_resolution_non_uniform():
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
 
-def test_ddaf_line_subpixel_vertical():
+def test_ddaf_line_subpixel_vertical() -> None:
     # vertical line, 3 crossings
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1 = (1.5, 1.5, 1.5, 3.9)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
     extent = (0, 0, 5, 5)
@@ -140,9 +140,9 @@ def test_ddaf_line_subpixel_vertical():
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
 
-def test_ddaf_multiple_lines():
+def test_ddaf_multiple_lines() -> None:
     # two lines, one crossing
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1, x2, y2 = (1.5, 1.3, 1.5, 1.8, 2.5, 1.8)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2) + math.sqrt(
         (x2 - x1) ** 2 + (y2 - y1) ** 2
@@ -156,9 +156,9 @@ def test_ddaf_multiple_lines():
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
 
-def test_ddaf_multiple_lines_two_crossings():
+def test_ddaf_multiple_lines_two_crossings() -> None:
     # vertical + diagonal line, two crossings
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1, x2, y2 = (0.25, 0.25, 0.25, 0.75, 1.25, 1.75)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2) + math.sqrt(
         (x2 - x1) ** 2 + (y2 - y1) ** 2
@@ -178,9 +178,9 @@ def test_ddaf_multiple_lines_two_crossings():
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
 
-def test_ddaf_multiple_lines_no_crossings():
+def test_ddaf_multiple_lines_no_crossings() -> None:
     # vertical + horizontal line, no crossings
-    weights = {}
+    weights: WeightsDict = {}
     x0, y0, x1, y1, x2, y2 = (0.25, 0.25, 0.25, 0.75, 0.75, 0.75)
     length = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2) + math.sqrt(
         (x2 - x1) ** 2 + (y2 - y1) ** 2
@@ -193,14 +193,13 @@ def test_ddaf_multiple_lines_no_crossings():
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
 
-def test_even_odd_polygon_fill():
+def test_even_odd_polygon_fill() -> None:
     """Test rasterizing different polygons."""
 
-    nodes = [(1.5, 1.0), (4.0, 1.0), (4.0, 4.0), (2.5, 3.0), (1.5, 1.0)]
-    nodes = np.array(nodes)
+    nodes = np.array([(1.5, 1.0), (4.0, 1.0), (4.0, 4.0), (2.5, 3.0), (1.5, 1.0)])
 
     # simple polygon without subgrid refinement
-    weights = {}
+    weights: WeightsDict = {}
     extent = (0, 0, 10, 10)
     nx = 10
     ny = 10
