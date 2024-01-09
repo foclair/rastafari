@@ -1,0 +1,94 @@
+stages:
+  - lint
+  - build
+  - test
+  - publish
+
+default:
+  image: r-harbor.smhi.se/foluft/python:3.11-git-ubi9
+  cache:
+    key: ${CI_JOB_NAME}
+    paths:
+      - .cache
+
+variables:
+  PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
+
+check-manifest:
+  stage: lint
+  before_script:
+    - python -m pip install "check-manifest==0.48"
+  script:
+    - check-manifest
+
+mypy:
+  stage: lint
+  before_script:
+    - python -m pip install -r test-requirements.txt
+  script:
+    - mypy .
+
+pre-commit:
+  stage: lint
+  variables:
+    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+  before_script:
+    - python -m pip install "pre-commit~=3.3"
+  script:
+    - pre-commit run -a
+
+.build:
+  stage: build
+  needs: []
+  before_script:
+    - python -m pip install "build~=0.10.0" "cython~=0.29.32" "setuptools~=65.5.0"
+  script:
+    - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+build:py39:
+  extends: .build
+  image: r-harbor.smhi.se/foluft/python:3.9-git-ubi9
+  script:
+    - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation --wheel
+
+build:py311:
+  extends: .build
+  script:
+    - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation
+
+.test:
+  stage: test
+  before_script:
+    - python -m pip install -r test-requirements.txt
+    - python -m pip install --find-links dist/ --no-deps --no-index rastafari
+
+test:py39:
+  extends: .test
+  needs: ["build:py39"]
+  image: r-harbor.smhi.se/foluft/python:3.9-git-ubi9
+  script:
+    - pytest
+
+test:py311:
+  extends: .test
+  needs: ["build:py311"]
+  script:
+    - pytest --cov --junit-xml=junit.xml
+  artifacts:
+    reports:
+      junit: junit.xml
+  coverage: /^TOTAL.*\s(\d+)%$/
+
+publish:
+  stage: publish
+  before_script:
+    - python -m pip install "twine~=4.0.1"
+  script:
+    - twine check dist/*
+    - twine upload --non-interactive dist/*
+  only:
+    - tags
