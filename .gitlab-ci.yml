@@ -8,10 +8,12 @@ linux:
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
+    RASTAFARI_USE_CYTHON: 1
     # See https://github.com/docker-library/docker/pull/166
     DOCKER_TLS_CERTDIR: ""
   script:
     - curl -sSL https://get.docker.com/ | sh
+    - python -m pip install cython
     - python -m pip install cibuildwheel==2.16.2
     - cibuildwheel --output-dir wheelhouse
   artifacts:
