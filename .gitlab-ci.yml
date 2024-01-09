@@ -13,8 +13,9 @@ linux:
     DOCKER_TLS_CERTDIR: ""
   script:
     - curl -sSL https://get.docker.com/ | sh
-    - python -m pip install cython
     - python -m pip install cibuildwheel==2.16.2
+    - python -m pip install cython
+    - RASTAFARI_USE_CYTHON=1 python setup.py build_ext
     - cibuildwheel --output-dir wheelhouse
   artifacts:
     paths:
