@@ -14,7 +14,6 @@ linux:
   script:
     - curl -sSL https://get.docker.com/ | sh
     - python -m pip install cibuildwheel==2.16.2
-    - python -m pip install cython
     - cibuildwheel --output-dir wheelhouse
   artifacts:
     paths:
@@ -22,6 +21,8 @@ linux:
 
 windows:
   image: mcr.microsoft.com/windows/servercore:1809
+  variables:
+    CIBW_ENVIRONMENT: RASTAFARI_USE_CYTHON=1
   before_script:
     - choco install python -y --version 3.11.5
     - choco install git.install -y
