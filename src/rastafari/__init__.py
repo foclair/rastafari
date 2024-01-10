@@ -14,7 +14,7 @@ __all__ = [
     "resample_band",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 ExtentType = tuple[float, float, float, float]
 WeightsDict = dict[tuple[int, int], float]
