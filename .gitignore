@@ -1,4 +1,5 @@
 /build/
+/dist/
 /.coverage
 /.venv
 /src/rastafari.egg-info/

@@ -8,7 +8,7 @@ Rasterize vector features to grids.
 Use pip and FO Luft's Python index to install Rastafari:
 
 ```console
-python -m pip install rastafari --extra-index-url https://gitlab.smhi.se/api/v4/projects/3495/packages/pypi/simple
+python -m pip install rastafari
 ```
 
 
