@@ -64,15 +64,12 @@ All these tools will be run in CI in case you forget.
 
 To release a new version of Rastafari, bump the version number in
 `src/rastafari/__init__.py` and create a git tag starting with a lower
-case `v` followed by the new version number.  [GitLab's
-releases][gitlab-release] is the recommended way to create this tag
-for non-prereleases.
+case `v` followed by the new version number.
 
 Remember that you can create pre-release versions and install them
 with [pip's --pre flag][pip-pre] if you want to test a feature with
 another package without affecting other users of this package.
 
-[gitlab-release]: https://git.smhi.se/foclair/rastafari/-/releases
 [pip-pre]: https://pip.pypa.io/en/stable/cli/pip_install/#pre-release-versions
 
 
