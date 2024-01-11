@@ -1,11 +1,17 @@
 # Rastafari
 
-Rasterize vector features to grids.
+Rasterize vector features. This library is built to rasterize emission sources in the CLAIR air quality modelling system. In contrast to most available libraries used to rasterize vector features, this library produces rasters with weights proportional to the fraction of each cell that is covered by a feature.
 
+
+### Features:
+
+* line rasterization using DDA algorithm producing weights for fractions of cell
+* polygon rasterization using polygon fill
+* mass-consistent resampling of rasters to another resolution and projection
 
 ## Install
 
-Use pip and FO Luft's Python index to install Rastafari:
+Use pip to install Rastafari:
 
 ```console
 python -m pip install rastafari
@@ -16,7 +22,7 @@ python -m pip install rastafari
 
 To install Rastafari in a local venv for development, run:
 ```console
-git clone https://git.smhi.se/foclair/rastafari.git
+git clone https://gitlab.com/foclair/rastafari.git
 cd rastafari
 sudo yum install python3.11-devel
 python3.11 -m venv .venv
