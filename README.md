@@ -5,9 +5,11 @@ Rasterize vector features. This library is built to rasterize emission sources i
 
 ### Features:
 
-* line rasterization using DDA algorithm producing weights for fractions of cell
-* polygon rasterization using polygon fill
-* mass-consistent resampling of rasters to another resolution and projection
+* line rasterization using DDA algorithm, producing weights proportional to fraction of line intersected by each cell
+* polygon rasterization using even-odd rule, producing weights proportional to fraction of polygon included in each cell 
+* mass-consistent resampling of a raster using inverse nearest neighbour algorithm, allowing for different projections in source and target
+
+See rastafari/tests for examples.
 
 ## Install
 
@@ -24,8 +26,7 @@ To install Rastafari in a local venv for development, run:
 ```console
 git clone https://gitlab.com/foclair/rastafari.git
 cd rastafari
-sudo yum install python3.11-devel
-python3.11 -m venv .venv
+python -m venv .venv
 . .venv/bin/activate
 python -m pip install -U pip
 python -m pip install cython wheel
@@ -60,21 +61,8 @@ All these tools will be run in CI in case you forget.
 [pip-tools]: https://github.com/jazzband/pip-tools/
 
 
-## Release
-
-To release a new version of Rastafari, bump the version number in
-`src/rastafari/__init__.py` and create a git tag starting with a lower
-case `v` followed by the new version number.
-
-Remember that you can create pre-release versions and install them
-with [pip's --pre flag][pip-pre] if you want to test a feature with
-another package without affecting other users of this package.
-
-[pip-pre]: https://pip.pypa.io/en/stable/cli/pip_install/#pre-release-versions
-
-
 ## Maintenance
 
-This package is maintained by [FO Luft][] at SMHI.
+This package is maintained by [David Segersson][] at SMHI.
 
-[FO Luft]: mailto:foluftadmin@smhi.se
+[David Segersson]: mailto:david.segersson@smhi.se
