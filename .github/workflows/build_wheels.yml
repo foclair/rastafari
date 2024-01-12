@@ -1,5 +1,3 @@
-github/workflows/build_wheels.yml
-
 name: Build
 
 on: [push, pull_request]
