@@ -21,7 +21,7 @@ WeightsDict = dict[tuple[int, int], float]
 
 
 def resample_band(
-    source_grid: npt.NDArray[np.float_],
+    source_grid: npt.NDArray[np.float64],
     source_extent: ExtentType,
     source_nodata: float,
     target_extent: ExtentType,
@@ -30,7 +30,7 @@ def resample_band(
     source_srid: int,
     target_srid: int,
     subgridcells: int = 2,
-) -> tuple[tuple[npt.NDArray[np.intp], ...], npt.NDArray[np.float_]]:
+) -> tuple[tuple[npt.NDArray[np.intp], ...], npt.NDArray[np.float64]]:
     """Resample raster using inverse neareast neighbour algorithm.
 
     The original raster is refined and each pixel is sorted into the
