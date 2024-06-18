@@ -1,5 +1,10 @@
 # Change log
 
+## 0.3.0
+
+- Add support for Numpy 2.
+
+
 ## 0.2.0
 
 - Add support for Python 3.11 (!1).
