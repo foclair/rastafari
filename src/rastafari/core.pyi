@@ -15,7 +15,7 @@ def ddaf_line_subpixel(
     grid_dy: float,
 ) -> int | None: ...
 def even_odd_polygon_fill(
-    points: npt.NDArray[np.float_],
+    points: npt.NDArray[np.float64],
     weights: WeightsDict,
     grid_extent: ExtentType,
     grid_nx: int,
