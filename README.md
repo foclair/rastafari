@@ -63,6 +63,6 @@ All these tools will be run in CI in case you forget.
 
 ## Maintenance
 
-This package is maintained by [David Segersson][] at SMHI.
+This package is maintained by [Eef van Dongen][] at SMHI.
 
-[David Segersson]: mailto:david.segersson@smhi.se
+[Eef van Dongen]: mailto:eef.vandongen@smhi.se
