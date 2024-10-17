@@ -8,7 +8,6 @@ from rastafari import resample_band
 def test_resample_band() -> None:
     band = np.array([[1, 2], [3, 4]])
     source_extent = (0, 0, 100, 100)
-    source_nodata = -9999
     target_extent = (0, 0, 25, 25)
     target_nx = 2
     target_ny = 2
@@ -20,12 +19,12 @@ def test_resample_band() -> None:
     index_array, weights = resample_band(
         band,
         source_extent,
-        source_nodata,
         target_extent,
         target_nx,
         target_ny,
         source_srid,
         target_srid,
+        source_nodata=-9999,
     )
 
     assert np.all(weights == np.array([0.1875, 0.1875, 0.1875, 0.1875]))
@@ -44,12 +43,12 @@ def test_resample_band() -> None:
     index_array, weights = resample_band(
         band,
         source_extent,
-        source_nodata,
         target_extent,
         target_nx,
         target_ny,
         source_srid,
         target_srid,
+        source_nodata=-9999,
     )
     assert weights.sum() == approx(10.0, 1e-4)
 
@@ -60,12 +59,12 @@ def test_resample_band() -> None:
     index_array, weights = resample_band(
         band,
         source_extent,
-        source_nodata,
         target_extent,
         target_nx,
         target_ny,
         source_srid,
         target_srid,
+        source_nodata=-9999,
     )
 
     assert np.all(weights == np.array([10.0]))

@@ -1,5 +1,7 @@
 """Rasterize vector features to grids."""
 
+from __future__ import annotations
+
 import math
 
 import numpy as np
@@ -23,12 +25,12 @@ WeightsDict = dict[tuple[int, int], float]
 def resample_band(
     source_grid: npt.NDArray[np.float64],
     source_extent: ExtentType,
-    source_nodata: float,
     target_extent: ExtentType,
     target_nx: int,
     target_ny: int,
     source_srid: int,
     target_srid: int,
+    source_nodata: float | None = None,
     subgridcells: int = 2,
 ) -> tuple[tuple[npt.NDArray[np.intp], ...], npt.NDArray[np.float64]]:
     """Resample raster using inverse neareast neighbour algorithm.
@@ -73,7 +75,9 @@ def resample_band(
     target_grid = np.zeros((target_ny, target_nx), dtype=float)
 
     # set nodata values to zero (if added by ST_Clip in emission query)
-    source_grid[source_grid == source_nodata] = 0
+    if source_nodata is not None:
+        source_grid[source_grid == source_nodata] = 0
+
     # upsample the source grid for improved accuracy
     if refinement_factor > 1 and subgridcells > 1:
         refinement_factor = math.ceil(refinement_factor)
