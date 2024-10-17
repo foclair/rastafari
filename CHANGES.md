@@ -1,5 +1,10 @@
 # Change log
 
+## 0.4.0
+
+- Make `source_nodata` an optional keyword argument in `resample_band()`.
+
+
 ## 0.3.0
 
 - Add support for Numpy 2.
