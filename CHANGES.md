@@ -1,5 +1,10 @@
 # Change log
 
+## 0.4.1
+
+- Add support for Python 3.12.
+
+
 ## 0.4.0
 
 - Make `source_nodata` an optional keyword argument in `resample_band()`.
