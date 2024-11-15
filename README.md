@@ -18,8 +18,8 @@ To install Rastafari in a local venv for development, run:
 ```console
 git clone https://git.smhi.se/foclair/rastafari.git
 cd rastafari
-sudo yum install python3.11-devel
-python3.11 -m venv .venv
+sudo yum install python3.12-devel
+python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install -U pip
 python -m pip install cython wheel
