@@ -38,7 +38,7 @@ mypy:
   stage: build
   needs: []
   before_script:
-    - python -m pip install "build~=0.10.0" "cython~=0.29.32" "setuptools~=65.5.0"
+    - python -m pip install "build~=1.2.2" "cython~=3.0.11" "setuptools~=75.5.0"
   script:
     - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation
   artifacts:
