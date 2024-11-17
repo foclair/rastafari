@@ -23,7 +23,7 @@ variables:
 check-manifest:
   stage: lint
   before_script:
-    - python -m pip install "check-manifest==0.48"
+    - python -m pip install "check-manifest==0.50"
   script:
     - check-manifest
 
