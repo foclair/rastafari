@@ -1,3 +1,9 @@
+include:
+  - component: $CI_SERVER_FQDN/foluft/devops/components/pre-commit/pre-commit@0.2.0
+    inputs:
+      stage: lint
+      image: r-harbor.smhi.se/foluft/python:3.12-git-ubi9
+
 stages:
   - lint
   - build
@@ -27,15 +33,6 @@ mypy:
     - python -m pip install -r test-requirements.txt
   script:
     - mypy .
-
-pre-commit:
-  stage: lint
-  variables:
-    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
-  before_script:
-    - python -m pip install "pre-commit~=3.3"
-  script:
-    - pre-commit run -a
 
 .build:
   stage: build
