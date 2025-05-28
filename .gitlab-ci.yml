@@ -99,6 +99,11 @@ publish:
     - python -m pip install twine
   script:
     - twine check dist/*
-    - twine upload --non-interactive dist/*
+    - twine upload
+          --non-interactive
+          --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+          --username gitlab-ci-token
+          --password ${CI_JOB_TOKEN}
+          dist/*
   only:
     - tags
