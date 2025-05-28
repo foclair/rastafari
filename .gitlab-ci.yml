@@ -1,3 +1,9 @@
+include:
+  - component: $CI_SERVER_FQDN/foluft/devops/components/pre-commit/pre-commit@0.2.0
+    inputs:
+      stage: lint
+      image: r-harbor.smhi.se/foluft/python:3.12-git-ubi9
+
 stages:
   - lint
   - build
@@ -5,7 +11,7 @@ stages:
   - publish
 
 default:
-  image: r-harbor.smhi.se/foluft/python:3.11-git-ubi9
+  image: r-harbor.smhi.se/foluft/python:3.12-git-ubi9
   cache:
     key: ${CI_JOB_NAME}
     paths:
@@ -17,7 +23,7 @@ variables:
 check-manifest:
   stage: lint
   before_script:
-    - python -m pip install "check-manifest==0.48"
+    - python -m pip install "check-manifest==0.50"
   script:
     - check-manifest
 
@@ -28,20 +34,11 @@ mypy:
   script:
     - mypy .
 
-pre-commit:
-  stage: lint
-  variables:
-    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
-  before_script:
-    - python -m pip install "pre-commit~=3.3"
-  script:
-    - pre-commit run -a
-
 .build:
   stage: build
   needs: []
   before_script:
-    - python -m pip install "build~=0.10.0" "cython~=0.29.32" "setuptools~=65.5.0"
+    - python -m pip install "build~=1.2.2" "cython~=3.0.11" "setuptools~=75.5.0"
   script:
     - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation
   artifacts:
@@ -56,6 +53,12 @@ build:py39:
     - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation --wheel
 
 build:py311:
+  extends: .build
+  image: r-harbor.smhi.se/foluft/python:3.11-git-ubi9
+  script:
+    - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation --wheel
+
+build:py312:
   extends: .build
   script:
     - RASTAFARI_USE_CYTHON=1 python -m build --no-isolation
@@ -76,6 +79,13 @@ test:py39:
 test:py311:
   extends: .test
   needs: ["build:py311"]
+  image: r-harbor.smhi.se/foluft/python:3.11-git-ubi9
+  script:
+    - pytest
+
+test:py312:
+  extends: .test
+  needs: ["build:py312"]
   script:
     - pytest --cov --junit-xml=junit.xml
   artifacts:
@@ -89,6 +99,11 @@ publish:
     - python -m pip install twine
   script:
     - twine check dist/*
-    - twine upload --non-interactive dist/*
+    - twine upload
+          --non-interactive
+          --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+          --username gitlab-ci-token
+          --password ${CI_JOB_TOKEN}
+          dist/*
   only:
     - tags
