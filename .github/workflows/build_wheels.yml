@@ -19,7 +19,7 @@ jobs:
         run: |
           if [[ "${{ matrix.os }}" == "ubuntu-20.04" ]]; then
             echo "CIBW_PLATFORM=linux" >> $GITHUB_ENV
-          elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          elif [[ "${{ matrix.os }}" == "windows-2022" ]]; then
             echo "CIBW_PLATFORM=windows" >> $GITHUB_ENV
           elif [[ "${{ matrix.os }}" == "macos-11" ]]; then
             echo "CIBW_PLATFORM=macos" >> $GITHUB_ENV
