@@ -1,56 +1,30 @@
 name: Build
-
 on:
   push:
-    tags:
+    tags:        
       - v*
   workflow_dispatch:
-
+  
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-latest, macos-11]
+        os: [ubuntu-20.04, windows-2022, macos-11]
 
     steps:
-      - name: Check out source code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Set CIBW_PLATFORM
-        run: echo "CIBW_PLATFORM=${{ matrix.platform }}" >> $GITHUB_ENV
-        shell: bash
-        env:
-          matrix_platform: ${{ matrix.os == 'ubuntu-20.04' && 'linux' || (matrix.os == 'windows-latest' && 'windows' || 'macos') }}
-
-      - name: Set platform for cibuildwheel
-        run: |
-          if [[ "${{ matrix.os }}" == "ubuntu-20.04" ]]; then
-            echo "CIBW_PLATFORM=linux" >> $GITHUB_ENV
-          elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            echo "CIBW_PLATFORM=windows" >> $GITHUB_ENV
-            echo "CIBW_BUILD=cp3?-win_amd64" >> $GITHUB_ENV
-          elif [[ "${{ matrix.os }}" == "macos-11" ]]; then
-            echo "CIBW_PLATFORM=macos" >> $GITHUB_ENV
-          fi
-        shell: bash
+      - uses: actions/checkout@v4
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.16.2
+        uses: pypa/cibuildwheel@v2.16.5
         env:
           CIBW_ENVIRONMENT: RASTAFARI_USE_CYTHON=1
         with:
-          package-dir: .
-          output-dir: wheelhouse
+           package-dir: .
+           output-dir: wheelhouse
+           config-file: "{package}/pyproject.toml"
 
-      - name: Upload wheels
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
-          path: wheelhouse/*.whl
+          path: ./wheelhouse/*.whl
