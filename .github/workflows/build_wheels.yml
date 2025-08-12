@@ -15,6 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set CIBW_PLATFORM
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-20.04" ]]; then
+            echo "CIBW_PLATFORM=linux" >> $GITHUB_ENV
+          elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            echo "CIBW_PLATFORM=windows" >> $GITHUB_ENV
+          elif [[ "${{ matrix.os }}" == "macos-11" ]]; then
+            echo "CIBW_PLATFORM=macos" >> $GITHUB_ENV
+          fi
+        shell: bash
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.2
         env:
