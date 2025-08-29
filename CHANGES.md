@@ -1,5 +1,10 @@
 # Change log
 
+## 0.4.2
+
+- Add support for Python 3.13.
+
+
 ## 0.4.1
 
 - Add support for Python 3.12.
