@@ -18,7 +18,3 @@ exclude = ['^setup\.py$']
 
 [tool.pytest.ini_options]
 filterwarnings = ["error"]
-
-[project]
-name = "rastafari2"  # This is the name used on PyPI
-version = "0.4.1" # Same version as in __init__.py
