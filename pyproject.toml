@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 ignore = [
   ".gitlab-ci.yml",
   "src/rastafari/*.c",
+  "tests/*"
 ]
 
 [tool.coverage.run]

@@ -5,3 +5,4 @@
 /src/rastafari/*.c
 /src/rastafari/*.so
 __pycache__/
+/dist/
