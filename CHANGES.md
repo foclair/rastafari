@@ -1,6 +1,10 @@
 # Change log
 
-## 0.4.2
+## 0.4.2.1
+
+- Merge gitlab and github repo
+
+## 0.4.2 (gitlab)
 
 - Add support for Python 3.13.
 
