@@ -10,13 +10,13 @@ mypy==1.13.0
     # via rastafari (setup.cfg)
 mypy-extensions==1.0.0
     # via mypy
-numpy==2.3.2
+numpy==2.0.2
     # via rastafari (setup.cfg)
 packaging==24.2
     # via pytest
 pluggy==1.5.0
     # via pytest
-pyproj==3.7.1
+pyproj==3.6.1
     # via rastafari (setup.cfg)
 pytest==8.3.3
     # via
