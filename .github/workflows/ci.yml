@@ -16,6 +16,7 @@ jobs:
     strategy:
       matrix:
         python-version:
+          - "3.11"
           - "3.13"
 
     steps:
@@ -42,4 +43,12 @@ jobs:
         run: python -m pre_commit run --all-files
 
       - name: Run tests
-        run: python -m pytest --cov=rastafari tests/
+        run: python -m pytest --cov=rastafari tests/ --junit-xml=junit.xml
+
+      - name: Test Report
+        uses: dorny/test-reporter@v3
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}       # run this step even if previous step failed
+        with:
+          name: test-results ${{ matrix.python-version }}
+          path: junit.xml
+          reporter: jest-junit
