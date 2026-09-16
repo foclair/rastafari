@@ -9,8 +9,8 @@ on:
       - master
 
 jobs:
-  lint:
-    name: Lint
+  pre-check:
+    name: Pre-check
     runs-on: ubuntu-latest
 
     steps:
@@ -40,7 +40,7 @@ jobs:
   test:
     name: Test (Python ${{ matrix.python-version }})
     needs:
-      - lint
+      - pre-check
     runs-on: ubuntu-latest
 
     strategy:
