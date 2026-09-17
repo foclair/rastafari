@@ -264,19 +264,19 @@ def even_odd_polygon_fill(
     cdef int ny = grid_ny * subgridcells
 
     # calculate grid cell-size
-    cdef double grid_dx = (gx1 - gx0) / nx
     cdef double grid_dy = (gy1 - gy0) / ny
+    cdef double grid_dx = (gx1 - gx0) / nx
 
     # get bounding box of polygon
-    cdef double xmin = points[:, 0].min()
-    cdef double ymin = points[:, 1].min()
     cdef double xmax = points[:, 0].max()
+    cdef double xmin = points[:, 0].min()
     cdef double ymax = points[:, 1].max()
+    cdef double ymin = points[:, 1].min()
 
     # bounding box in pixel coordinates
     cdef int xmin_p = int((xmin - gx0) / grid_dx)
-    cdef int ymin_p = int((ymin - gy0) / grid_dy)
     cdef int xmax_p = int(ceil((xmax - gx0) / grid_dx))
+    cdef int ymin_p = int((ymin - gy0) / grid_dy)
     cdef int ymax_p = int(ceil((ymax - gy0) / grid_dy))
 
     # clip the bounding box to the grid extent
