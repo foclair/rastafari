@@ -59,6 +59,10 @@ cpdef int ddaf_line_subpixel(
 
     cdef double segment_length = sqrt((x1 - x0)**2 + (y1 - y0)**2)
 
+    # nothing to rasterize for zero-length segment
+    if segment_length == 0 or length == 0:
+        return 0
+
     # transfer to pixel coordinates (from lower left corner)
     cdef double x0p, x1p, y0p, y1p, xdiff, intersection_length, old_dist, x_diff, y_diff
     x0p = (x0 - gx0) / grid_dx
