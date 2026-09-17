@@ -305,4 +305,5 @@ def test_even_odd_polygon_fill_larger_than_grid() -> None:
     even_odd_polygon_fill(nodes, weights, extent, nx, ny, subgridcells=1)
 
     assert_valid_grid_indices(weights, nx, ny)
+    assert len(weights) == nx * ny
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
