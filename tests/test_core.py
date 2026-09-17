@@ -196,10 +196,13 @@ def test_ddaf_multiple_lines_no_crossings() -> None:
 def test_ddaf_line_subpixel_with_line_outside_extent() -> None:
     weights: WeightsDict = {}
     p0, p1 = (-1.0, 1.0), (3.0, 1.0)
-    length = math.dist(p0, p1)
     extent = (0.0, 0.0, 2.0, 2.0)
-    ddaf_line_subpixel(*p0, *p1, weights, length, extent, 1, 2)
+    ddaf_line_subpixel(*p0, *p1, weights, math.dist(p0, p1), extent, 1, 2)
     assert weights == {(0, 0): 0.25, (0, 1): 0.25}
+
+    p0, p1 = (0.5, 3.0), (0.5, -1.0)
+    ddaf_line_subpixel(*p0, *p1, weights, math.dist(p0, p1), extent, 1, 2)
+    assert weights == {(0, 0): 0.75, (0, 1): 0.25}
 
 
 def test_even_odd_polygon_fill() -> None:
