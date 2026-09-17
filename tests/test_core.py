@@ -92,6 +92,20 @@ def test_ddaf_line_subpixel_contained() -> None:
     assert weights == {(3, 1): 1}
     assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
 
+    # degenerate line (internal segment_length)
+    weights = {}
+    p0, p1 = (2, 2), (2, 2)
+    extent = (0, 0, 5, 5)
+    ddaf_line_subpixel(*p0, *p1, weights, 1, extent, 1, 2)
+    assert sum(weights.values()) == pytest.approx(0.0, 1e-6)
+
+    # degenerate line (external length)
+    weights = {}
+    p0, p1 = (2, 2), (2, 3)
+    extent = (0, 0, 5, 5)
+    ddaf_line_subpixel(*p0, *p1, weights, 0, extent, 1, 2)
+    assert sum(weights.values()) == pytest.approx(0.0, 1e-6)
+
 
 def test_ddaf_resolution_non_uniform() -> None:
     # horizontal line, no crossings
