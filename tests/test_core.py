@@ -287,7 +287,7 @@ def test_even_odd_polygon_fill() -> None:
     assert_weights(weights, true_weights)
 
 
-def assert_valid_grid_indices(weights: WeightsDict, nx, ny):
+def assert_valid_grid_indices(weights: WeightsDict, nx: int, ny: int) -> None:
     for row, col in weights:
         assert 0 <= row < ny, f"row {row} outside grid"
         assert 0 <= col < nx, f"col {col} outside grid"

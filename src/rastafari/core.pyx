@@ -264,20 +264,26 @@ def even_odd_polygon_fill(
     cdef int ny = grid_ny * subgridcells
 
     # calculate grid cell-size
-    cdef double grid_dy = (gy1 - gy0) / ny
     cdef double grid_dx = (gx1 - gx0) / nx
+    cdef double grid_dy = (gy1 - gy0) / ny
 
     # get bounding box of polygon
-    cdef double xmax = points[:, 0].max()
     cdef double xmin = points[:, 0].min()
-    cdef double ymax = points[:, 1].max()
     cdef double ymin = points[:, 1].min()
+    cdef double xmax = points[:, 0].max()
+    cdef double ymax = points[:, 1].max()
 
     # bounding box in pixel coordinates
     cdef int xmin_p = int((xmin - gx0) / grid_dx)
-    cdef int xmax_p = int(ceil((xmax - gx0) / grid_dx))
     cdef int ymin_p = int((ymin - gy0) / grid_dy)
+    cdef int xmax_p = int(ceil((xmax - gx0) / grid_dx))
     cdef int ymax_p = int(ceil((ymax - gy0) / grid_dy))
+
+    # clip the bounding box to the grid extent
+    if xmin_p < 0: xmin_p = 0
+    if ymin_p < 0: ymin_p = 0
+    if xmax_p > nx: xmax_p = nx
+    if ymax_p > ny: ymax_p = ny
 
     # convert points to pixel coordinates
     pp = np.copy(points)
@@ -287,18 +293,18 @@ def even_odd_polygon_fill(
         pp_view[ii, 0] = (pp_view[ii, 0] - gx0) / grid_dx
         pp_view[ii, 1] = (pp_view[ii, 1] - gy0) / grid_dy
 
-    cdef int rowmin = min((max((0, ny - ymax_p)), ny))
-    cdef int rowmax = max((min((ny, ny - ymin_p)), 0))
-    cdef int colmin = min((max((0, int(xmin_p))), ceil(xmax_p)))
-    cdef int colmax = min((nx - 1, int(max(ceil(xmax_p), 0))))
+    cdef int rowmin = ny - ymax_p
+    cdef int rowmax = ny - ymin_p
+    cdef int colmin = xmin_p
+    cdef int colmax = xmax_p
 
     subgrid = np.zeros((rowmax - rowmin, colmax - colmin))
     cdef int number_of_nodes = pp.shape[0]
 
     cdef int filled_cells = 0
 
-    cdef int intersections = 0
-    cdef list nodeX = []
+    cdef int intersections
+    cdef list nodeX
     cdef int i, j
     cdef double swap
 
