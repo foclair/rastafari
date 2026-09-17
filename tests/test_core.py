@@ -231,13 +231,13 @@ def test_even_odd_polygon_fill() -> None:
     ny = 10
     even_odd_polygon_fill(nodes, weights, extent, nx, ny, subgridcells=2)
     true_weights = {
-        (6, 3): 0.1363636,
-        (7, 3): 0.18181818,
-        (8, 3): 0.18181818,
-        (6, 2): 0.04545454,
-        (8, 2): 0.18181818,
-        (8, 1): 0.0909090,
-        (7, 2): 0.181818,
+        (6, 3): 3 / 22,
+        (7, 3): 4 / 22,
+        (8, 3): 4 / 22,
+        (6, 2): 1 / 22,
+        (8, 2): 4 / 22,
+        (8, 1): 2 / 22,
+        (7, 2): 4 / 22,
     }
 
     assert_weights(weights, true_weights)
@@ -285,3 +285,24 @@ def test_even_odd_polygon_fill() -> None:
     }
 
     assert_weights(weights, true_weights)
+
+
+def assert_valid_grid_indices(weights: WeightsDict, nx, ny):
+    for row, col in weights:
+        assert 0 <= row < ny, f"row {row} outside grid"
+        assert 0 <= col < nx, f"col {col} outside grid"
+
+
+def test_even_odd_polygon_fill_larger_than_grid() -> None:
+    """Test rasterizing of a polygon larger than the grid"""
+
+    nodes = np.array([(-50.0, -50.0), (60.0, -50.0), (60.0, 60.0), (-50.0, 60.0)])
+    weights: WeightsDict = {}
+    extent = (0, 0, 10, 10)
+    nx = 5
+    ny = 10
+
+    even_odd_polygon_fill(nodes, weights, extent, nx, ny, subgridcells=1)
+
+    assert_valid_grid_indices(weights, nx, ny)
+    assert sum(weights.values()) == pytest.approx(1.0, 1e-6)
