@@ -68,3 +68,12 @@ def test_resample_band() -> None:
     )
 
     assert np.all(weights == np.array([10.0]))
+
+
+def test_resample_band_does_not_modify_source_grid() -> None:
+    band = np.array([[1, -9999], [3, 4]])
+    original = band.copy()
+    resample_band(
+        band, (0, 0, 100, 100), (0, 0, 25, 25), 2, 2, 3006, 3006, source_nodata=-9999
+    )
+    assert np.array_equal(band, original)
