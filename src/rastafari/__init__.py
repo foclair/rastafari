@@ -76,6 +76,7 @@ def resample_band(
 
     # set nodata values to zero (if added by ST_Clip in emission query)
     if source_nodata is not None:
+        source_grid = source_grid.copy()
         source_grid[source_grid == source_nodata] = 0
 
     # upsample the source grid for improved accuracy
