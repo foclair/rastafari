@@ -9,36 +9,8 @@ on:
       - main
 
 jobs:
-  pre-check:
-    name: Pre-check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: "3.13"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pre-commit check-manifest
-
-      - name: Run pre-commit checks
-        run: python -m pre_commit run --all-files
-
-      - name: Check-manifest
-        run: check-manifest
-
   test:
     name: Test (Python ${{ matrix.python-version }})
-    needs:
-      - pre-check
     runs-on: ubuntu-latest
 
     strategy:
@@ -65,8 +37,17 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[test]"
 
+      - name: Run pre-commit checks
+        if: ${{ matrix.python-version == '3.13' && github.event_name == 'pull_request' }}
+        run: |
+          python -m pip install pre-commit
+          python -m pre_commit run --all-files
+
       - name: Lint
         run: python -m mypy .
+
+      - name: Check-manifest
+        run: check-manifest
 
       - name: Run tests
         run: python -m pytest --cov=rastafari --junit-xml=junit.xml tests/

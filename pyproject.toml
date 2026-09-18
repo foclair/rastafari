@@ -25,6 +25,7 @@ Homepage = "https://github.com/foclair/rastafari"
 
 [project.optional-dependencies]
 test = [
+  "check-manifest",
   "mypy",
   "pytest >=9.0.3",
   "pytest-cov",
