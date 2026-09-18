@@ -1,5 +1,6 @@
 include           CHANGES.md
-include           .pre-commit-config.yaml
 recursive-include src/rastafari *.pyx
-include           test-requirements*.txt
 recursive-include tests *.py
+prune             .github
+global-exclude    .pre-commit-config.yaml
+global-exclude    test-requirements*.txt

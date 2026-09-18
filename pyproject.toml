@@ -48,8 +48,11 @@ rastafari = ["core.pyi", "py.typed"]
 
 [tool.check-manifest]
 ignore = [
-  ".gitlab-ci.yml",
+  ".flake8",
+  ".github",
+  ".pre-commit-config.yaml",
   "src/rastafari/*.c",
+  "test-requirements*.txt",
   "tests/*"
 ]
 
