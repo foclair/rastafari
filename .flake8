@@ -1,6 +1,0 @@
-[flake8]
-exclude =
-    .direnv,
-    .venv
-extend-ignore = E203
-max-line-length = 88
