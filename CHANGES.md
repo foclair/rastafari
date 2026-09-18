@@ -1,5 +1,9 @@
 # Change log
 
+## 0.4.4.dev0
+
+- Nothing yet
+
 ## 0.4.3
 
 - Fix `ddaf_line_subpixel` to handle degenerate lines (#6)
