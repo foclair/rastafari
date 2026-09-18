@@ -1,8 +1,12 @@
 # Change log
 
-## 0.4.3.dev0
+## 0.4.3
 
-- Nothing yet
+- Fix `ddaf_line_subpixel` to handle degenerate lines (#6)
+- Fix `resample_band` to not modify source_grid (#7)
+- Fix `even_odd_polygon_fill` for polygons larger than grid (#8)
+- Update dependencies
+    - Drop support for Python 3.9
 
 ## 0.4.2.1
 
