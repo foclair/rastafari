@@ -48,7 +48,6 @@ rastafari = ["core.pyi", "py.typed"]
 
 [tool.check-manifest]
 ignore = [
-  ".flake8",
   ".github",
   ".pre-commit-config.yaml",
   "src/rastafari/*.c",
@@ -66,5 +65,5 @@ strict = true
 [tool.pytest.ini_options]
 filterwarnings = ["error"]
 
-[tool.black]
-exclude = '(\.direnv|\.venv)'
+[tool.ruff.lint]
+extend-select = ["I", "RUF100"]

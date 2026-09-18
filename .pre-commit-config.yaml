@@ -1,28 +1,24 @@
 repos:
-  - repo: https://github.com/ambv/black
-    rev: "23.7.0"
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.15.20"
     hooks:
-      - id: black
-  - repo: https://github.com/pycqa/isort
-    rev: "5.12.0"
-    hooks:
-      - id: isort
-  - repo: https://github.com/pycqa/flake8
-    rev: "6.1.0"
-    hooks:
-      - id: flake8
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v4.4.0"
+    rev: "v6.0.0"
     hooks:
       - id: check-added-large-files
         args: ["--enforce-all"]
+      - id: check-json
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
-      - id: debug-statements
+      - id: check-yaml
+      - id: detect-private-key
       - id: end-of-file-fixer
-      - id: fix-encoding-pragma
-        args: [--remove]
       - id: mixed-line-ending
         args: [--fix, lf]
+      - id: no-commit-to-branch
+        args: [--branch, main]
       - id: trailing-whitespace
