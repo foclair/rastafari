@@ -1,6 +1,50 @@
 [build-system]
-requires = ["setuptools>=61.0", "Cython"]
+requires = ["setuptools>=61.0", "Cython>=3.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "rastafari"
+authors = [
+  { name = "Eef van Dongen" },
+  { name = "David Segersson" },
+]
+maintainers = [
+  { name = "FO Luft", email = "foluftadmin@smhi.se" },
+]
+description = "Rasterize vector features to grids"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "numpy",
+  "pyproj",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/foclair/rastafari"
+
+[project.optional-dependencies]
+test = [
+  "mypy",
+  "pytest",
+  "pytest-cov",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "rastafari.__version__"}
+
+[[tool.setuptools.ext-modules]]
+name = "rastafari.core"
+sources = ["src/rastafari/core.pyx"]
+
+[tool.setuptools.package-data]
+rastafari = ["core.pyi", "py.typed"]
 
 [tool.check-manifest]
 ignore = [
@@ -15,7 +59,9 @@ branch = true
 
 [tool.mypy]
 strict = true
-exclude = ['^setup\.py$']
 
 [tool.pytest.ini_options]
 filterwarnings = ["error"]
+
+[tool.black]
+exclude = '(\.direnv|\.venv)'

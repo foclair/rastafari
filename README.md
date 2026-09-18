@@ -30,8 +30,7 @@ sudo yum install python3.13-devel
 python3.13 -m venv .venv
 . .venv/bin/activate
 python -m pip install -U pip
-python -m pip install cython setuptools wheel
-RASTAFARI_USE_CYTHON=1 python -m pip install --no-build-isolation -e .[test]
+python -m pip install -e .[test]
 ```
 
 Rastafari uses [pre-commit][]. Install it and run `pre-commit
