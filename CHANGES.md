@@ -2,7 +2,8 @@
 
 ## 0.4.4.dev0
 
-- Nothing yet
+- Update certifi
+- Drop support for Python 3.10
 
 ## 0.4.3
 

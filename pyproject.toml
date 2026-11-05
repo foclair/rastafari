@@ -13,7 +13,7 @@ maintainers = [
 ]
 description = "Rasterize vector features to grids"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
   "numpy",
   "pyproj",
@@ -25,6 +25,7 @@ Homepage = "https://github.com/foclair/rastafari"
 
 [project.optional-dependencies]
 test = [
+  "certifi >=2026.10.18",
   "check-manifest",
   "mypy",
   "pytest >=9.0.3",
