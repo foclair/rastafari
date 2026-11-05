@@ -1,6 +1,6 @@
 # Change log
 
-## 0.4.4.dev0
+## 0.4.4
 
 - Update certifi
 - Drop support for Python 3.10
