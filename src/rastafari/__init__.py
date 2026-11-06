@@ -145,7 +145,5 @@ def resample_band(
         ],
     )
 
-    # only positive values are returned as weights, so use the same mask for
-    # the indices to keep the two arrays aligned
     positive = target_grid > 0
     return positive.nonzero(), target_grid[positive]

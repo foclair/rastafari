@@ -79,6 +79,27 @@ def test_resample_band_does_not_modify_source_grid() -> None:
     assert np.array_equal(band, original)
 
 
+def test_resample_band_empty_source_grid() -> None:
+    band = np.zeros((2, 2))
+    index_array, weights = resample_band(
+        band, (0, 0, 2, 2), (0, 0, 2, 2), 2, 2, 3006, 3006
+    )
+
+    assert len(index_array) == 2
+    assert all(indices.size == 0 for indices in index_array)
+    assert weights.size == 0
+
+
+def test_resample_band_nan_nodata() -> None:
+    band = np.array([[1.0, np.nan], [3.0, 4.0]])
+    index_array, weights = resample_band(
+        band, (0, 0, 2, 2), (0, 0, 2, 2), 2, 2, 3006, 3006, source_nodata=np.nan
+    )
+
+    assert len(index_array[0]) == weights.size
+    assert weights.sum() == approx(8.0)
+
+
 def test_resample_band_returns_matching_indices_and_weights() -> None:
     band = np.array([[-5.0, 2.0], [3.0, 4.0]])
     index_array, weights = resample_band(
