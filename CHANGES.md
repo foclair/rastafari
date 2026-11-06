@@ -2,7 +2,8 @@
 
 ## 0.4.5.dev0
 
-- Nothing yet
+- Fix `resample_band` returning mismatched indices and weights for negative
+  source values (#18)
 
 ## 0.4.4
 
