@@ -33,7 +33,7 @@ def resample_band(
     source_nodata: float | None = None,
     subgridcells: int = 2,
 ) -> tuple[tuple[npt.NDArray[np.intp], ...], npt.NDArray[np.float64]]:
-    """Resample raster using inverse neareast neighbour algorithm.
+    """Resample raster using inverse nearest neighbour algorithm.
 
     The original raster is refined and each pixel is sorted into the
     target grid.
@@ -77,7 +77,10 @@ def resample_band(
     # set nodata values to zero (if added by ST_Clip in emission query)
     if source_nodata is not None:
         source_grid = source_grid.copy()
-        source_grid[source_grid == source_nodata] = 0
+        if np.isnan(source_nodata):
+            source_grid[np.isnan(source_grid)] = 0
+        else:
+            source_grid[source_grid == source_nodata] = 0
 
     # upsample the source grid for improved accuracy
     if refinement_factor > 1 and subgridcells > 1:
@@ -102,7 +105,9 @@ def resample_band(
     cell_centers = np.vstack((ccx, ccy)).T
     if cell_centers.size == 0:
         # all cells are zero in source grid
-        return ((), np.array([]))
+        return (np.array([], dtype=np.intp), np.array([], dtype=np.intp)), np.array(
+            [], dtype=np.float64
+        )
 
     # if target srid is different from source srid,
     # transform cell centers to target srid
@@ -139,4 +144,6 @@ def resample_band(
             source_cols[cells_within_target_extent],
         ],
     )
-    return (target_grid.nonzero(), target_grid[target_grid > 0].ravel())
+
+    positive = target_grid > 0
+    return positive.nonzero(), target_grid[positive]

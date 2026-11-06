@@ -2,7 +2,11 @@
 
 ## 0.4.5.dev0
 
-- Nothing yet
+- Fix `resample_band` returning mismatched indices and weights for negative
+  source values (#18)
+- Support `NaN` as `source_nodata` in `resample_band`
+- Fix `resample_band` returning an empty tuple instead of empty index arrays
+  for an empty source grid
 
 ## 0.4.4
 
